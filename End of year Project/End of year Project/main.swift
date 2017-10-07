@@ -45,7 +45,6 @@ func readfile(_ path:String)->[Double]
 func readfile1() -> [Double] {
 	let path = (FileManager.default).currentDirectoryPath
 	print("Current Directory is \(path)")
-	print("Please enter the name of your file")
 
 	var home = String(describing: FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0])
 	home = home.replacingOccurrences(of: "file://", with: "", options: .literal, range: nil)
@@ -154,7 +153,7 @@ func RandomSet() -> (set:[Double], arraysize:Int, upperlimit: UInt32) {
 	if set.count <= 1000 {
 
 	print("Would you like to print your random set? (Y/N) ")
-	let response = String(readLine()!)!.lowercased()
+	let response = readLine()!.lowercased()
 
 		if response == "y" {
 			print(" ")
@@ -306,7 +305,7 @@ func collatz(_ set: [Double]) {
 	var start, end: Double
 
 	print("Do you want a random number from your set or a custom one? (R/C)")
-	let response2 = String(readLine()!)!.lowercased()
+	let response2 = readLine()!.lowercased()
 	if response2 == "r" {
 		let j = UInt32(set.count - 1)
 		let num = Int(arc4random_uniform(j))
