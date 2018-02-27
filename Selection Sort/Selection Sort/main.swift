@@ -10,77 +10,6 @@ import Swift
 import Darwin
 import Quartz
 
-
-// *******************************************************************
-// Function strinput returns a String which it reads from the Console
-//
-// *********************************************************************
-
-func strinput() -> String {
-    let keyboard = NSFileHandle.fileHandleWithStandardInput()
-    let inputData = keyboard.availableData
-    let strData = NSString(data: inputData, encoding: NSUTF8StringEncoding)!
-    
-    return strData.stringByTrimmingCharactersInSet(NSCharacterSet.newlineCharacterSet())
-} // end of function strinput
-// *********************************************************************
-//
-// Function doubleinput returns an integer which it reads from the Console
-//
-// *********************************************************************
-
-func doubleinput() -> Double {
-    let keyboard = NSFileHandle.fileHandleWithStandardInput()
-    let inputData = keyboard.availableData
-    let strData = NSString(data: inputData, encoding: NSUTF8StringEncoding)!
-    strData.stringByTrimmingCharactersInSet(NSCharacterSet.newlineCharacterSet())
-    
-    var dvalue: Double = 0
-    
-    dvalue = strData.doubleValue
-    
-    return dvalue
-} // end of function doubleinput
-
-
-// *********************************************************************
-//
-// Function intinput returns an integer which it reads from the Console
-//
-// *********************************************************************
-
-func intinput() -> Int {
-    let keyboard = NSFileHandle.fileHandleWithStandardInput()
-    let inputData = keyboard.availableData
-    let strData = NSString(data: inputData, encoding: NSUTF8StringEncoding)!
-    strData.stringByTrimmingCharactersInSet(NSCharacterSet.newlineCharacterSet())
-    
-    return Int (strData.intValue)
-} // end of function intinput
-// *********************************************************************
-// *********************************************************************
-
-func Uintinput() -> UInt32 {
-    let keyboard = NSFileHandle.fileHandleWithStandardInput()
-    let inputData = keyboard.availableData
-    let strData = NSString(data: inputData, encoding: NSUTF8StringEncoding)!
-    strData.stringByTrimmingCharactersInSet(NSCharacterSet.newlineCharacterSet())
-    
-    return UInt32 (strData.intValue)
-} // end of function intinput
-// *********************************************************************
-// *********************************************************************
-func intinput32() -> Int32 {
-    let keyboard = NSFileHandle.fileHandleWithStandardInput()
-    let inputData = keyboard.availableData
-    let strData = NSString(data: inputData, encoding: NSUTF8StringEncoding)!
-    strData.stringByTrimmingCharactersInSet(NSCharacterSet.newlineCharacterSet())
-    
-    return Int32 (strData.intValue)
-} // end of function intinput
-// *********************************************************************
-
-// var sel: Int
 var arraysize: Int
 var upperlimit: UInt32
 var i, r, j: Int
@@ -97,8 +26,8 @@ func insertionSort(a: [Int]) -> [Int] {
     var a = intlist
     for x in 1..<a.count {
         var y = x
-        while y > 0 && a[y] < a[y - 1] {
-            swap(&a[y - 1], &a[y])
+        while (y > 0 && a[y] < a[y - 1]) {
+            a.swapAt(y - 1, y)
             y -= 1
         }
     }
@@ -122,81 +51,80 @@ while !done {
         print("Quit                   0 *")
         print("**************************")
         print("Enter option: ")
-        return intinput()
+        return Int(readLine()!)!
     }
-
+    
     select = menu()
-      switch(select) {
-      case 0:
-        done = true
-        
+    switch(select) {
+    case 0:
+        exit(0)
         break
     case 1:
         //  Loading and Sorting array
         print("Enter array size: ");
-        arraysize = intinput()
+        arraysize = Int(readLine()!)!
         print("Enter Upper Limit: ")
-        upperlimit = Uintinput()
+        upperlimit = UInt32(readLine()!)!
         
         let starttime = CACurrentMediaTime()
-
+        
         print("Loading array with random numbers...");
-
-        for (i = 0; i < arraysize; i += 1 ) {
+        
+        for _ in 0 ..< arraysize {
             
             r = Int (arc4random_uniform(upperlimit))
             intlist.append(r)
         }
         let endtime = CACurrentMediaTime()
-
+        
         print("Load array time is ", endtime-starttime, " sec")
-
+        
         break
     case 2: // Sorting array
         let starttime = CACurrentMediaTime()
         max = intlist[0]
-
-         print("\n Sorting Array...")
         
-         for i in 0...(arraysize - 1)
-         {
+        print("\n Sorting Array...")
+        
+        for i in 0...(arraysize - 1)
+        {
             for j in i...(arraysize - 1)
             {
                 if (intlist[j] < intlist[i])
                 {
-                    swap(&intlist[i], &intlist[j])
+                    intlist.swapAt(i, j)
                 }
             }
-         }
+        }
         
         let endtime = CACurrentMediaTime
-
+        
         print("Sort Array time is \(endtime() - starttime) sec")
         break
     case 3:  // insertion sort
         
-// Variables
+        // Variables
         var r: Int
         var starttime: Double
         var endtime: Double
         var index: Int
-        var j: Int = 0
+       // var j: Int = 0
         var intlist = [Int]()
-        var Yes, Y, y, yes, no, n, No, N: String
+       // var Yes, Y, y, yes, no, n, No, N: String
         
-//remove all
+        //remove all
         intlist.removeAll()
         
-//remove all insurance
+        //remove all insurance
         intlist.removeAll()
-
-//initialization
+        
+        //initialization
         print("Insertion Sort")
         print("Enter array size: ")
-        arraysize = intinput()
+        arraysize = Int(readLine()!)!
         print("\n Sorting Array...")
         
-//Insertion Sort
+        //Insertion Sort
         starttime = CACurrentMediaTime()
         for j in 0...(arraysize-1)
         {
@@ -205,15 +133,15 @@ while !done {
             while(index > 0 && r < intlist[index-1]) {
                 index = index-1
             }
-            intlist.insert(r, atIndex: index)
+            intlist.insert(r, at: index)
         }
         endtime = CACurrentMediaTime()
-
-//Print Statements
+        
+        //Print Statements
         print("Array Sorted! Would you like to Print the sorted array?")
-        var response = strinput()
+        let response = String(readLine()!)
         if (response == ("Yes")) {
-        print(intlist)
+            print(intlist)
         }
         var totaltime = endtime - starttime
         totaltime = round(1000*totaltime)/1000
@@ -221,20 +149,19 @@ while !done {
         break
         
     case 4:
-//print Array
+        //print Array
         print(intlist)
-      
+        
         break
-      case 5:
-// Variables
+    case 5:
+        // Variables
         var lower, middle, upper: Int
-        var findint: Int
         var target: Int
         var found: Bool = false
         var passes: Int
         var starttime: Double
         var endtime: Double
-// Values
+        // Values
         
         lower = 0
         upper = intlist.count
@@ -243,18 +170,18 @@ while !done {
         starttime = 0
         endtime = 0
         
-// Initialization
+        // Initialization
         
         print("Binary Search")
         print ("What number would you like to find")
-        target = intinput()
+        target = Int(readLine()!)!
         print("Searching array of size \(intlist.count) for value \(target)...\n")
         
-// Binary Search
+        // Binary Search
         starttime = CACurrentMediaTime()
         print(intlist[middle])
         while (intlist[middle] != target) && (lower <= upper) {
-                passes += 1
+            passes += 1
             if target < intlist[middle] {
                 upper = middle - 1
             }
@@ -270,7 +197,7 @@ while !done {
             found = (intlist[middle] == target)}
         endtime = CACurrentMediaTime()
         
-// Passes and if target print statements
+        // Passes and if target print statements
         totaltime = endtime - starttime
         totaltime = round(totaltime*1000)/1000
         print("Search time is ", totaltime, " sec")
@@ -280,28 +207,27 @@ while !done {
         else {
             print("\(target) was not found, required \(passes) passes")
         }
-
+        
         break
-    
-      case 6:
+        
+    case 6:
         //sequential search
         var run = false
         var rdnumber: Int
         passes = 0
+        var i = 0
         var starttime: Double = 0
         var endtime: Double = 0
         print("Please enter a number from 0 to \(upperlimit):", terminator: "")
-        rdnumber = intinput()
+        rdnumber = Int(readLine()!)!
         
         while !run {
             starttime = CACurrentMediaTime()
-            for r=0; r < intlist.count; r += 1
-            
-            {
+            for r in 0 ..< intlist.count {
                 passes += 1
                 if(rdnumber == intlist[r])
                 {
-                    
+                    i = r
                     run = true
                 }
                 endtime = CACurrentMediaTime()
@@ -316,27 +242,21 @@ while !done {
             print("Search took:", totaltime, "")
             print("Number of passes: \(passes)");
             if run == true {
-                print("\(rdnumber) found at: \(r)") }
+                print("\(rdnumber) found at: \(i)") }
             
         }
-      case 7:
+    case 7:
         //clear array
         print("Clearing arary...")
         intlist.removeAll()
         print("Array Cleared")
         break
     default:
-         if ((select < 0) || (select > 7)) {
+        if ((select < 0) || (select > 7)) {
             print("Must enter an integer between 0 and 6")
         }
         
     }
 }
-
-intlist.removeAll()
 // end of while
 //***************************************************************************************************
-
-
-
-
